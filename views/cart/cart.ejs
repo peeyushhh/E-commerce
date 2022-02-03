@@ -54,12 +54,12 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.min.js" integrity="sha512-m2ssMAtdCEYGWXQ8hXVG4Q39uKYtbfaJL5QMTbhl2kc6vYyubrKHhr6aLLXW4ITeXSywQLn1AhsAaqrJl8Acfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-  var val=document.querySelector('#totalAmount').innerText+"00";
-  console.log(val);
+  var val=+document.querySelector('#totalAmount').innerText;
+  
   axios.post('/payment').then((info)=>{
     let options = {
     "key": "rzp_test_ShKtNuaInbNRfD", // Enter the Key ID generated from the Dashboard
-    "amount":`100000`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "amount":val*100+"", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "INR",
     "name": "Acme Corp",
     "description": "Test Transaction",

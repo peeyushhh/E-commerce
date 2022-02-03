@@ -46,9 +46,10 @@ route.delete('/user/:id/remove',isLoggedIn,async(req,res)=>{
     
 })
 route.post('/payment',isLoggedIn,(req,res)=>{
+
     try{
         var options = {
-            amount: 500*100,  // amount in the smallest currency unit
+            amount:"",  // amount in the smallest currency unit
             currency: "INR",
           };
           razorpay.orders.create(options, function(err, order) {
