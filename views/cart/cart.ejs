@@ -1,0 +1,81 @@
+<%- include('../partials/header')%>
+<%- include('../partials/navbar')%>
+<main class="container">
+    <%-include('../partials/flash')%>
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-5" style="overflow-y:auto;">
+         <h5 class="mb-5"><%=user.username%> Cart</h5>
+         <%if (user.cart.length==0){%>
+          <h4 class="text-center">Add something to cart</h4>
+          <h5 class="text-center"><a href="/products">Products</a></h5>
+     <%}else{%>
+      <div class="cart_products">
+        <%user.cart.map((val)=>{%>
+          <div class="card mb-3 m-auto" style="max-width: 400px;">
+            <div class="row g-0">
+              <div class="col-md-4 my-auto">
+                <img src="<%=val.img%>" class="img-fluid rounded-start" style="height: 150px;object-fit: cover;" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%=val.name%></h5>
+                  <p class="card-text">&#x20B9 <%=val.price%></p>
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  <form class="d-inline-block" action="/user/<%=val._id%>/remove?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+         <%})%>
+       </div>
+       <%}%>
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6 rightSide">
+          <%if (user.cart.length==0){%>
+               <h3>Ooops!cart is empty.</h3>
+          <%}else{%>
+            <%var totalAmount=0%>
+            <h1 class="display-6">Items</h1>
+           <ul class="list-group" style="max-height:200px;overflow-y: auto;width:250px">
+                <%for(let item of user.cart){%>
+                    <% totalAmount+=item.price %>
+                    <li class="list-group-item"> <span class="fw-bold"> <%=item.name%></span> : &#x20B9 <span><%= item.price %> </span>  </li>
+                <%}%>
+                <li class="list-group-item"> <span class="fw-bold"> Total Amount</span> : &#x20B9 <span id="totalAmount"><%= totalAmount %> </span>  </li>
+            </ul>
+            <div class="my-3">
+             <button class="btn btn-success btn-small" id="rzp-button1">Proceed To Pay</button>
+            </div>
+            <%}%>
+        </div>
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.22.0/axios.min.js" integrity="sha512-m2ssMAtdCEYGWXQ8hXVG4Q39uKYtbfaJL5QMTbhl2kc6vYyubrKHhr6aLLXW4ITeXSywQLn1AhsAaqrJl8Acfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var val=document.querySelector('#totalAmount').innerText+"00";
+  console.log(val);
+  axios.post('/payment').then((info)=>{
+    let options = {
+    "key": "rzp_test_ShKtNuaInbNRfD", // Enter the Key ID generated from the Dashboard
+    "amount":`100000`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg8LM2Gvia4-98FVmorjqoLyz7AvzYHC-cBg&usqp=CAU",
+    "order_id": info.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "/is-order-complete",
+    "theme": {
+        "color": "#3399cc"
+    }
+  };
+    let rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+};
+
+  })
+</script>
+<%- include('../partials/footer')%>

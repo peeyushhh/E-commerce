@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400;1,500&display=swap');
+*{
+    font-family: 'Roboto', sans-serif;
+}
+:root{
+    --main-color:#0096c7;
+}
+
+.navbar{
+    background-color: var(--main-color);
+}
+
+main,section{
+    margin-top:4rem;
+}
+
+.card{
+    box-shadow: 1px 0.5px 2px #dee2e6;
+}
+
+.card img{
+    padding: 10px;
+    height: 225px;
+}
+.rightSide{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+}
+.eye{
+    position:relative;
+}
+.fa-eye,.fa-eye-slash
+{
+    position:absolute;
+    top:-2rem;
+    right:0;
+}
+.fa-eye-slash{
+    top:-2.4rem;
+}
+@media screen and (max-width:768px){
+    .cart_products{
+        overflow-y: auto;
+        height:200px;
+    } 
+}
+@media screen and (max-width:1300px){
+    .cart_products{
+        height:300px;
+    } 
+}
+@media screen and (min-width:1300px){
+    .cart_products{
+        height:350px;
+    } 
+}

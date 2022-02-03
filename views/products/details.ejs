@@ -1,0 +1,74 @@
+<%- include('../partials/header')%>
+<%- include('../partials/navbar')%>
+<section class="container">
+  <%-include('../partials/flash')%>
+ <div class="row">
+     <div class="col-sm-12 col-md-6 col-lg-6 mx-auto mt-1">
+        <div class="card mx-auto" style="height:fit-content;">
+            <img src="<%=product.img%>" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"><%=product.name%> </h5>
+              <p class="card-text"><%=product.desc%></p>
+              <h5 class="card-title">&#x20B9 <%=product.price%></h5>
+              <%if(!currentUser){%>
+                <p class="text-center t-3">You need To Login first <span><a href="/login">Login</a></span></p>
+              <%}else{%>
+                <%var isAdmin = false%>
+                <%if(!isAdmin){%>
+                <form class="d-inline-block" action="/cart/<%=product._id%>/add" method="POST">
+                  <button type="submit" class="btn btn-outline-primary btn-sm">Buy Now</button>
+                </form>
+                <form class="d-inline-block" action="/cart/<%=product._id%>/add" method="POST">
+                  <button type="submit" class="btn btn-outline-secondary btn-sm">Add To Cart</button>
+                </form>
+                <%}else{%>
+              <a href="/products/<%=product._id%>/edit" class="btn btn-outline-dark btn-sm">Edit</a>
+              <form class="d-inline-block" action="/products/<%=product._id%>?_method=DELETE" method="POST">
+           <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+              </form>
+              <%}%>
+              <%}%>
+            </div>
+    </div>
+     </div>
+     <div class="col-sm-12 col-md-5 col-lg-5 mt-1 mx-auto">
+       <h1 class="text-center">Leave Your Review</h1>
+       <div class="mb-3">
+       <form action="/products/<%=product._id%>/reviews" method="POST">
+         <div class="mb-5">
+          <label for="rating" class="form-label"
+          >Rating</label>
+       <input type="range" class="form-control" name="rating" id="rating" min="0" max="5">
+         </div>
+         <div class="mb-5">
+          <label for="comment" class="form-label"
+          >Comment</label>
+       <textarea class="form-control" name="comment" row="3" id="comment"></textarea>
+         </div>
+      <button type="submit" class="btn btn-success btn-small">Submit</button>
+       </form>
+       </div>
+       <div class="mb-3" style="overflow-y:auto;height:10rem">
+        <div class="mb-3">
+            <%for(let review of product.reviews){%>
+                <div class="card mb-2">
+                    <div class="card-body">
+                      <h5 class="card-title">Rating : <%= review.rating %> </h5>
+                      <p class="card-title" style="font-size:12px">By : <%=review.user%></p>
+                      <p class="card-text"><%= review.comment %> </p>
+                      <%if(currentUser!=undefined && currentUser.username===review.user){%>
+                        <form class="d-inline-block" action="/products/<%=product._id%>/<%=review._id%>/delete?_method=DELETE" method="POST">
+                          <button type="submit" class="btn btn-outline-danger btn-small">Delete</button>
+                         </form>
+                         <%}%>
+                    </div>
+                  </div>
+            <%}%>
+        </div>
+    </div> 
+
+
+     </div>
+ </div>
+</section>
+<%- include('../partials/footer')%>

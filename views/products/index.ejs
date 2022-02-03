@@ -1,0 +1,25 @@
+<%- include('../partials/header')%>
+<%- include('../partials/navbar')%>
+<main class="container">
+    <%-include('../partials/flash')%>
+    <h1 class="display-5">Shopping-Cart</h1>
+
+    <div class="row">
+        <% products.map((val)=>{ %> 
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card mx-auto" style="width: 20rem;">
+                    <img src="<%=val.img%>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title"><%=val.name%> </h5>
+                      <p class="card-text"><%=val.desc.substring(0,100)%></p>
+                      <h5 class="card-title">&#x20B9 <%=val.price%></h5>
+                      <a href="products/<%=val._id%>" class="btn btn-outline-primary">Buy Now</a>
+                    </div>
+                  </div>
+            </div>
+        <%})%>
+    </div>
+
+
+</main>
+<%- include('../partials/footer')%>
