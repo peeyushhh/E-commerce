@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended:true}));
 app.use(express.json({ extended:true}));
 app.use(methodOverride('_method'));
 app.use(session({ 
-    secret:'weneedabettersecret',
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true
 }));
