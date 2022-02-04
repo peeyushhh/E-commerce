@@ -7,6 +7,10 @@ email:{
     unique:true,
     trim:true
 },
+isAdmin:{
+    type:Boolean,
+    default:false
+},
 cart:[
     {
         type:mongoose.Schema.Types.ObjectId,

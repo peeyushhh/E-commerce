@@ -13,7 +13,7 @@
               <%if(!currentUser){%>
                 <p class="text-center t-3">You need To Login first <span><a href="/login">Login</a></span></p>
               <%}else{%>
-                <%var isAdmin = false%>
+                <%var isAdmin = currentUser.isAdmin%>
                 <%if(!isAdmin){%>
                 <form class="d-inline-block" action="/cart/<%=product._id%>/add" method="POST">
                   <button type="submit" class="btn btn-outline-primary btn-sm">Buy Now</button>
@@ -21,7 +21,8 @@
                 <form class="d-inline-block" action="/cart/<%=product._id%>/add" method="POST">
                   <button type="submit" class="btn btn-outline-secondary btn-sm">Add To Cart</button>
                 </form>
-                <%}else{%>
+                <%}%>
+                <%if(isAdmin){%>
               <a href="/products/<%=product._id%>/edit" class="btn btn-outline-dark btn-sm">Edit</a>
               <form class="d-inline-block" action="/products/<%=product._id%>?_method=DELETE" method="POST">
            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
@@ -56,7 +57,7 @@
                       <h5 class="card-title">Rating : <%= review.rating %> </h5>
                       <p class="card-title" style="font-size:12px">By : <%=review.user%></p>
                       <p class="card-text"><%= review.comment %> </p>
-                      <%if(currentUser!=undefined && currentUser.username===review.user){%>
+                      <%if(currentUser!=undefined && currentUser.username===review.user ||currentUser.isAdmin){%>
                         <form class="d-inline-block" action="/products/<%=product._id%>/<%=review._id%>/delete?_method=DELETE" method="POST">
                           <button type="submit" class="btn btn-outline-danger btn-small">Delete</button>
                          </form>

@@ -8,9 +8,9 @@ route.get('/register',(req,res)=>{
 });
 route.post('/register',async (req,res)=>{
     try{
-     const {username,email,password} = req.body;
+     const {username,email,password,isAdmin} = req.body;
      const user=new User({
-         username,email
+         username,email,isAdmin
      });
      await User.register(user,password);
      req.flash('success',`Welcome ${username},Please Login to Continue!`);
